@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>data is <3</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+	<style>
+		body {
+			color: #ffffff;
+			font-family: Monospace;
+			font-size: 13px;
+			text-align: center;
+			font-weight: bold;
+			background-color: #000000;
+			margin: 0px;
+			overflow: hidden;
+		}
+		#info {
+			position: absolute;
+			top: 0px;
+			width: 100%;
+			padding: 5px;
+		}
+		a {
+			color: #ffffff;
+		}
+		#notSupported {
+			width: 50%;
+			margin: auto;
+			border: 2px red solid;
+			margin-top: 20px;
+			padding: 10px;
+		}
+	</style>
+</head>
+<body>
+
+	<div id="container"></div>
+
+	<script src="js/three.js"></script>
+	<script src="js/stats.min.js"></script>
+	<script src="js/OrbitControls.js"></script>
+	<script src="js/dat.gui.min.js"></script>
+
+
+	<script src="js/EffectComposer.js"></script>
+	<script src="js/RenderPass.js"></script>
+	<script src="js/ShaderPass.js"></script>
+	<script src="js/CopyShader.js"></script>
+	<script src="js/LuminosityHighPassShader.js"></script>
+	<script src="js/UnrealBloomPass.js"></script>
+
+	<script>
+  	var blocks = [{"year":"1856","start":"18 Dec","end":"14 Apr"},{"year":"1857","start":"6 Dec","end":"6 May"},{"year":"1858","start":"25 Nov","end":"26 Mar"},{"year":"1859","start":"8 Dec","end":"14 Mar"},{"year":"1860","start":"7 Dec","end":"26 Mar"},{"year":"1861","start":"14 Dec","end":"10 Apr"},{"year":"1862","start":"2 Dec","end":"13 Apr"},{"year":"1863","start":"26 Dec","end":"9 Apr"},{"year":"1864","start":"18 Dec","end":"21 Apr"},{"year":"1865","start":"8 Dec","end":"5 Apr"},{"year":"1866","start":"14 Dec","end":"18 Apr"},{"year":"1867","start":"18Dec","end":"20 Apr"},{"year":"1868","start":"12 Dec","end":"31 Mar"},{"year":"1869","start":"10 Dec","end":"16 Apr"},{"year":"1870","start":"2 Dec","end":"12 Apr"},{"year":"1871","start":"24 Dec","end":"2 Apr"},{"year":"1872","start":"19 Dec","end":"23 Apr"},{"year":"1873","start":"30 Nov","end":"23 Apr"},{"year":"1874","start":"29 Nov","end":"14 Apr"},{"year":"1875","start":"10 Dec","end":"15 Apr"},{"year":"1876","start":"10 Jan","end":"10 Apr"},{"year":"1877","start":"8 Dec","end":"17 Apr"},{"year":"1878","start":"6 Jan","end":"9 Mar"},{"year":"1879","start":"21 Dec","end":"12 Apr"},{"year":"1880","start":"17 Dec","end":"25 Mar"},{"year":"1881","start":"23 Nov","end":"3 May"},{"year":"1882","start":"2 Jan","end":"21 Mar"},{"year":"1883","start":"10 Dec","end":"13 Apr"},{"year":"1884","start":"18 Dec","end":"15 Apr"},{"year":"1885","start":"17 Dec","end":"20 Apr"},{"year":"1886","start":"12 Dec","end":"19 Apr"},{"year":"1887","start":"5 Dec","end":"15 Apr"},{"year":"1888","start":"24 Dec","end":"15 Apr"},{"year":"1889","start":"2 Jan","end":"31 Mar"},{"year":"1890","start":"14 Jan","end":"30 Mar"},{"year":"1891","start":"26 Dec","end":"16 Apr"},{"year":"1892","start":"27 Dec","end":"2 Apr"},{"year":"1893","start":"16 Dec","end":"7 Apr"},{"year":"1894","start":"4 Dec","end":"15 Mar"},{"year":"1895","start":"28 Dec","end":"8 Apr"},{"year":"1896","start":"5 Jan","end":"5 Apr"},{"year":"1897","start":"21 Dec","end":"10 Apr"},{"year":"1898","start":"17 Dec","end":"27 Mar"},{"year":"1899","start":"9 Dec","end":"18 Apr"},{"year":"1900","start":"27 Dec","end":"17 Apr"},{"year":"1901","start":"25 Dec","end":"11 Apr"},{"year":"1902","start":"15 Dec","end":"30 Mar"},{"year":"1903","start":"25 Dec","end":"24 Mar"},{"year":"1904","start":"13 Dec","end":"17 Apr"},{"year":"1905","start":"14 Dec","end":"1 Apr"},{"year":"1906","start":"1 Jan","end":"8 Apr"},{"year":"1907","start":"20 Dec","end":"24 Mar"},{"year":"1908","start":"1 Jan","end":"24 Mar"},{"year":"1909","start":"22 Dec","end":"7 Apr"},{"year":"1910","start":"18 Dec","end":"26 Mar"},{"year":"1911","start":"9 Dec","end":"20 Mar"},{"year":"1912","start":"28 Dec","end":"14 Apr"},{"year":"1913","start":"24 Dec","end":"2 Apr"},{"year":"1914","start":"12 Jan","end":"10 Apr"},{"year":"1915","start":"16 Dec","end":"10 Apr"},{"year":"1916","start":"28 Dec","end":"8 Apr"},{"year":"1917","start":"16 Dec","end":"11 Apr"},{"year":"1918","start":"11 Dec","end":"5 Apr"},{"year":"1919","start":"3 Jan","end":"26 Mar"},{"year":"1920","start":"9 Dec","end":"28 Mar"},{"year":"1921","start":"25 Dec","end":"16 Mar"},{"year":"1922","start":"25 Dec","end":"31 Mar"},{"year":"1923","start":"16 Dec","end":"20 Apr"},{"year":"1924","start":"1 Jan","end":"14 Apr"},{"year":"1925","start":"19 Dec","end":"3 Apr"},{"year":"1926","start":"16 Dec","end":"19 Apr"},{"year":"1927","start":"6 Dec","end":"19 Mar"},{"year":"1928","start":"17 Dec","end":"1 Apr"},{"year":"1929","start":"21 Dec","end":"27 Mar"},{"year":"1930","start":"3 Dec","end":"20 Mar"},{"year":"1931","start":"16 Dec","end":"24 Mar"},{"year":"1932","start":"30 Jan","end":"4 Apr"},{"year":"1933","start":"10 Dec","end":"4 Apr"},{"year":"1934","start":"25 Dec","end":"26 Mar"},{"year":"1935","start":"24 Dec","end":"28 Mar"},{"year":"1936","start":"20 Dec","end":"30 Mar"},{"year":"1937","start":"7 Dec","end":"30 Dec"},{"year":"1937","start":"5 Jan","end":"13 Apr"},{"year":"1938","start":"7 Dec","end":"22 Mar"},{"year":"1939","start":"28 Dec","end":"4 Apr"},{"year":"1940","start":"2 Jan","end":"16 Apr"},{"year":"1941","start":"5 Jan","end":"11 Apr"},{"year":"1942","start":"3 Jan","end":"26 Mar"},{"year":"1943","start":"7 Dec","end":"2 Apr"},{"year":"1944","start":"16 Dec","end":"8 Apr"},{"year":"1945","start":"18 Dec","end":"20 Mar"},{"year":"1946","start":"13 Dec","end":"21 Mar"},{"year":"1947","start":"30 Dec","end":"10 Apr"},{"year":"1948","start":"21 Dec","end":"3 Apr"},{"year":"1949","start":"24 Dec","end":"30 Mar"},{"year":"1950","start":"23 Dec","end":"11 Apr"},{"year":"1951","start":"11 Dec","end":"12 Apr"},{"year":"1952","start":"16 Dec","end":"8 Apr"},{"year":"1953","start":"30 Dec","end":"21 Mar"},{"year":"1954","start":"30 Dec","end":"25 Mar"},{"year":"1955","start":"2 Jan","end":"4 Apr"},{"year":"1956","start":"12 Dec","end":"4 Apr"},{"year":"1957","start":"14 Dec","end":"4 Apr"},{"year":"1958","start":"30 Dec","end":"4 Apr"},{"year":"1959","start":"9 Dec","end":"14 Apr"},{"year":"1960","start":"29 Dec","end":"12 Apr"},{"year":"1961","start":"19 Dec","end":"6 Apr"},{"year":"1962","start":"16 Dec","end":"12 Apr"},{"year":"1963","start":"12 Dec","end":"3 Apr"},{"year":"1964","start":"20 Dec","end":"11 Apr"},{"year":"1965","start":"15 Dec","end":"14 Apr"},{"year":"1966","start":"11 Jan","end":"17 Mar"},{"year":"1967","start":"26 Dec","end":"3 Apr"},{"year":"1968","start":"27 Dec","end":"27 Mar"},{"year":"1969","start":"17 Dec","end":"19 Dec"},{"year":"1969","start":"25 Dec","end":"10 Apr"},{"year":"1970","start":"16 Dec","end":"8 Apr"},{"year":"1971","start":"24 Dec","end":"13 Apr"},{"year":"1972","start":"5 Jan","end":"19 Apr"},{"year":"1973","start":"7 Dec","end":"14 Mar"},{"year":"1974","start":"21 Dec","end":"5 Apr"},{"year":"1975","start":"2 Jan","end":"19 Apr"},{"year":"1976","start":"27 Dec","end":"24 Mar"},{"year":"1977","start":"3 Dec","end":"28 Mar"},{"year":"1978","start":"7 Dec","end":"8 Dec"},{"year":"1978","start":"10 Dec","end":"11 Apr"},{"year":"1979","start":"10 Dec","end":"13 Dec"},{"year":"1979","start":"25 Dec","end":"19 Apr"},{"year":"1980","start":"29 Dec","end":"6 Apr"},{"year":"1981","start":"20 Dec","end":"23 Mar"},{"year":"1982","start":"28 Dec","end":"3 Apr"},{"year":"1983","start":"13 Jan","end":"8 Mar"},{"year":"1984","start":"19 Dec","end":"8 Apr"},{"year":"1985","start":"25 Dec","end":"26 Dec"},{"year":"1985","start":"2 Jan","end":"27 Mar"},{"year":"1986","start":"14 Dec","end":"31 Mar"},{"year":"1987","start":"13 Dec","end":"12 Mar"},{"year":"1988","start":"2 Jan","end":"29 Mar"},{"year":"1989","start":"29 Dec","end":"5 Apr"},{"year":"1990","start":"12 Dec","end":"15 Mar"},{"year":"1991","start":"26 Dec","end":"24 Mar"},{"year":"1992","start":"18 Dec","end":"26 Mar"},{"year":"1993","start":"24 Dec","end":"11 Apr"},{"year":"1994","start":"27 Dec","end":"31 Mar"},{"year":"1995","start":"6 Jan","end":"21 Mar"},{"year":"1996","start":"10 Dec","end":"7 Apr"},{"year":"1997","start":"20 Dec","end":"1 Apr"},{"year":"1998","start":"11 Jan","end":"27 Feb"},{"year":"1999","start":"30 Dec","end":"21 Mar"},{"year":"2000","start":"14 Jan","end":"7 Mar"},{"year":"2001","start":"13 Dec","end":"7 Apr"},{"year":"2002","start":"2 Jan","end":"12 Jan"},{"year":"2002","start":"4 Mar","end":"15 Mar"},{"year":"2003","start":"4 Jan","end":"3 Apr"},{"year":"2004","start":"7 Jan","end":"27 Mar"},{"year":"2005","start":"25 Dec","end":"5 Apr"},{"year":"2006","start":"19 Dec","end":"24 Mar"},{"year":"2007","start":"20 Jan","end":"27 Mar"},{"year":"2008","start":"26 Dec","end":"10 Apr"},{"year":"2009","start":"16 Dec","end":"23 Mar"},{"year":"2010","start":"29 Dec","end":"26 Mar"},{"year":"2011","start":"15 Dec","end":"3 Apr"},{"year":"2012","start":"14 Jan","end":"11 Mar"},{"year":"2013","start":"14 Jan","end":"11 Apr"},{"year":"2014","start":"16 Dec","end":"12 Apr"},{"year":"2015","start":"2 Jan","end":"3 Apr"},{"year":"2016","start":"11 Jan","end":"13 Mar"},{"year":"2017","start":"1 Jan","end":"7 Mar"},{"year":"2018","start":"27 Dec","end":"31 Mar"}];
+  </script>	
+
+	<script>
+
+		THREE.ShaderLib.customDepthRGBA = { // this is a cut-and-paste of the depth shader -- modified to accommodate instancing for this app
+			uniforms: THREE.ShaderLib.depth.uniforms,
+			vertexShader:
+				`
+				// instanced
+				#ifdef INSTANCED
+					attribute vec3 instanceOffset;
+					attribute vec3 instanceScale;
+				#endif
+				#include <common>
+				#include <uv_pars_vertex>
+				#include <displacementmap_pars_vertex>
+				#include <morphtarget_pars_vertex>
+				#include <skinning_pars_vertex>
+				#include <logdepthbuf_pars_vertex>
+				#include <clipping_planes_pars_vertex>
+				void main() {
+					#include <uv_vertex>
+					#include <skinbase_vertex>
+					#ifdef USE_DISPLACEMENTMAP
+						#include <beginnormal_vertex>
+						#include <morphnormal_vertex>
+						#include <skinnormal_vertex>
+					#endif
+					#include <begin_vertex>
+					// instanced
+					#ifdef INSTANCED
+						transformed *= instanceScale;
+						transformed = transformed + instanceOffset;
+					#endif
+					#include <morphtarget_vertex>
+					#include <skinning_vertex>
+					#include <displacementmap_vertex>
+					#include <project_vertex>
+					#include <logdepthbuf_vertex>
+					#include <clipping_planes_vertex>
+				}
+			`,
+			fragmentShader: THREE.ShaderChunk.depth_frag
+		};
+		THREE.ShaderLib.lambert = { // this is a cut-and-paste of the lambert shader -- modified to accommodate instancing for this app
+			uniforms: THREE.ShaderLib.lambert.uniforms,
+			vertexShader:
+				`
+				#define LAMBERT
+				#ifdef INSTANCED
+					attribute vec3 instanceOffset;
+					attribute vec3 instanceColor;
+					attribute vec3 instanceScale;
+				#endif
+				varying vec3 vLightFront;
+				#ifdef DOUBLE_SIDED
+					varying vec3 vLightBack;
+				#endif
+				#include <common>
+				#include <uv_pars_vertex>
+				#include <uv2_pars_vertex>
+				#include <envmap_pars_vertex>
+				#include <bsdfs>
+				#include <lights_pars_begin>
+				#include <color_pars_vertex>
+				#include <fog_pars_vertex>
+				#include <morphtarget_pars_vertex>
+				#include <skinning_pars_vertex>
+				#include <shadowmap_pars_vertex>
+				#include <logdepthbuf_pars_vertex>
+				#include <clipping_planes_pars_vertex>
+				void main() {
+					#include <uv_vertex>
+					#include <uv2_vertex>
+					#include <color_vertex>
+					// vertex colors instanced
+					#ifdef INSTANCED
+						#ifdef USE_COLOR
+							vColor.xyz = instanceColor.xyz;
+						#endif
+					#endif
+					#include <beginnormal_vertex>
+					#include <morphnormal_vertex>
+					#include <skinbase_vertex>
+					#include <skinnormal_vertex>
+					#include <defaultnormal_vertex>
+					#include <begin_vertex>
+					// position instanced
+					#ifdef INSTANCED
+						transformed *= instanceScale;
+						transformed = transformed + instanceOffset;
+					#endif
+					#include <morphtarget_vertex>
+					#include <skinning_vertex>
+					#include <project_vertex>
+					#include <logdepthbuf_vertex>
+					#include <clipping_planes_vertex>
+					#include <worldpos_vertex>
+					#include <envmap_vertex>
+					#include <lights_lambert_vertex>
+					#include <shadowmap_vertex>
+					#include <fog_vertex>
+				}
+				`,
+			fragmentShader: THREE.ShaderLib.lambert.fragmentShader
+		};
+
+		/*
+		// prcess the data:
+		*/
+		function numDays(start, end) {
+			return parseInt(((Date.parse(end) - Date.parse(start)) / (1000 * 60 * 60)) / 24);
+		}
+		blocks.forEach(item => {
+			let start = Date.parse(item.start)
+			let end = Date.parse(item.end)
+			if (start < end) { // same year
+			  item.value = numDays(item.start, item.end)
+			} else { // year cross over
+				start = numDays(item.start, 'Dec 31')
+				end = numDays('Jan 1', item.end)
+				item.value = start + end
+			}
+		})
+		var min = Math.min(...blocks.map(el => el.value))
+		var max = Math.max(...blocks.map(el => el.value))
+		var range = max - min
+		var mesh, renderer, scene, camera, controls;
+		// 2d captions
+		var ctxText2, ctxText2, textureText1, textureText2, textPlane1, textPlane2
+		var stats;
+		var params = {
+				exposure: 1.2,
+				bloomStrength: 2.4,
+				bloomThreshold: 0,
+				bloomRadius: 0.3
+			};
+			var clock = new THREE.Clock();
+			var composer, renderer;
+		init();
+		animate();
+		function init() {
+			renderer = new THREE.WebGLRenderer( { antialias: true } );
+			renderer.setSize( window.innerWidth, window.innerHeight );
+			renderer.shadowMap.enabled = true;
+			document.body.appendChild( renderer.domElement );
+			renderer.gammaOutput = true;
+			scene = new THREE.Scene();
+			scene.fog = new THREE.FogExp2( 0, 0.002 );
+			renderer.setClearColor( 0, 1 );
+			camera = new THREE.PerspectiveCamera( 40, window.innerWidth / window.innerHeight, 1, 1000 );
+			camera.position.set( 220, 170, 500 );
+			scene.add( camera );
+
+			// POST PROCESSING
+			var renderScene = new THREE.RenderPass( scene, camera );
+			var bloomPass = new THREE.UnrealBloomPass( new THREE.Vector2( window.innerWidth, window.innerHeight ), 1.5, 0.4, 0.85 );
+			bloomPass.renderToScreen = true;
+			bloomPass.threshold = params.bloomThreshold;
+			bloomPass.strength = params.bloomStrength;
+			bloomPass.radius = params.bloomRadius;
+			composer = new THREE.EffectComposer( renderer );
+			composer.setSize( window.innerWidth, window.innerHeight );
+			composer.addPass( renderScene );
+			composer.addPass( bloomPass );
+
+			var gui = new dat.GUI();
+			gui.add( params, 'exposure', 0.1, 2 ).onChange( function ( value ) {
+				renderer.toneMappingExposure = Math.pow( value, 4.0 );
+			} );
+			gui.add( params, 'bloomThreshold', 0.0, 1.0 ).onChange( function ( value ) {
+				bloomPass.threshold = Number( value );
+			} );
+			gui.add( params, 'bloomStrength', 0.0, 3.0 ).onChange( function ( value ) {
+				bloomPass.strength = Number( value );
+			} );
+			gui.add( params, 'bloomRadius', 0.0, 1.0 ).step( 0.01 ).onChange( function ( value ) {
+				bloomPass.radius = Number( value );
+			} );
+			scene.add( new THREE.AmbientLight( 0x446aff, 0.7 ) );
+			// instanced buffer geometry
+			var baseGeometry = new THREE.BoxBufferGeometry( 1,1,1 )
+			baseGeometry.applyMatrix(new THREE.Matrix4().makeTranslation(-0.5, 0, 0));
+
+			var geometry = new THREE.InstancedBufferGeometry();
+			geometry.copy( baseGeometry );
+
+			const INSTANCES = blocks.length;
+			
+			var offsets = new Float32Array( INSTANCES * 3 ); // xyz
+			var colors = new Float32Array( INSTANCES * 3 ); // rgb
+			var scales = new Float32Array( INSTANCES * 3 ); // s
+			var lastYear = null
+			var yearCount = 0
+			for ( var i = 0, l = INSTANCES; i < l; i ++ ) {
+				var index = 3 * i;
+				let days = numDays('Jan 1', blocks[i].start)
+				if (days > 200) {
+					days -= 365
+				} 
+				offsets[ index ] = -days // (max-min);
+				var year = blocks[i].year
+				if (year !== lastYear) {
+					lastYear = year
+					yearCount = yearCount + 1
+				}
+				var angle = -(yearCount - 1) / l * Math.PI * 2;
+				var radius = 152;
+				offsets[ index + 1 ] = radius * Math.cos(angle)
+				offsets[ index + 2 ] = radius * Math.sin(angle)
+				colors[ index ] = 1;
+				colors[ index + 1 ] = 1;
+				colors[ index + 2 ] = 1;
+				// per-instance scale variation
+				scales[ index ] = blocks[i].value;
+				scales[ index + 1 ] = 1;
+				scales[ index + 2 ] = 1;
+			}
+			// console.log(blocks.map(o => o.value))
+			geometry.addAttribute( 'instanceOffset', new THREE.InstancedBufferAttribute( offsets, 3 ) );
+			geometry.addAttribute( 'instanceColor', new THREE.InstancedBufferAttribute( colors, 3 ) );
+			geometry.addAttribute( 'instanceScale', new THREE.InstancedBufferAttribute( scales, 3 ) );
+			// material
+			var envMap = new THREE.TextureLoader().load( `assets/metal.jpg`, function ( texture ) {
+				texture.mapping = THREE.SphericalReflectionMapping;
+				texture.encoding = THREE.sRGBEncoding;
+				if ( mesh ) mesh.material.needsUpdate = true;
+			} );
+			var material = new THREE.MeshLambertMaterial( {
+				color: 0x446aff,
+				envMap: envMap,
+				combine: THREE.MultiplyOperation,
+				reflectivity: 0.8,
+				vertexColors: THREE.VertexColors,
+				fog: true
+			} );
+			material.defines = material.defines || {};
+			material.defines[ 'INSTANCED' ] = "";
+			// custom depth material - required for instanced shadows
+			var shader = THREE.ShaderLib[ 'customDepthRGBA' ];
+			var uniforms = THREE.UniformsUtils.clone( shader.uniforms );
+			var customDepthMaterial = new THREE.ShaderMaterial( {
+				defines: {
+					'INSTANCED': "",
+					'DEPTH_PACKING': THREE.RGBADepthPacking
+				},
+				uniforms: uniforms,
+				vertexShader: shader.vertexShader,
+				fragmentShader: shader.fragmentShader
+			} );
+			//
+			mesh = new THREE.Mesh( geometry, material );
+			mesh.scale.set( -1, 1, 1 );
+			mesh.castShadow = true;
+			mesh.receiveShadow = true;
+			mesh.customDepthMaterial = customDepthMaterial;
+			mesh.frustumCulled = false;
+			scene.add( mesh );
+
+			var ground = new THREE.Mesh(
+				new THREE.CylinderBufferGeometry( 150, 150, 3000, 32, 1,true ).rotateZ( - Math.PI / 2 ),
+				new THREE.MeshPhongMaterial( { color: 0 } )
+			);
+			ground.position.set( 0, 0, 0 );
+			// ground.receiveShadow = true;
+			scene.add( ground );
+
+ 			var loader = new THREE.TextureLoader();
+      var sprite = loader.load('assets/grid-nov-may.png', function (texture) {
+				texture.wrapS = texture.wrapT = THREE.RepeatWrapping;
+				texture.offset.set(0, 0);
+				texture.repeat.set(-3, -1);
+			});
+
+			var groundLines = new THREE.Mesh(
+				new THREE.CylinderBufferGeometry( 150.1, 150.1, 184, 32, 1, true ).rotateZ( - Math.PI / 2 ),
+				new THREE.MeshPhongMaterial( { color: 0xff44ff, opacity: 0.25, transparent:true, map:sprite } )
+			);
+			groundLines.position.set( 30, 0, 0 );
+			groundLines.receiveShadow = true;
+			scene.add( groundLines );
+
+
+			var w = 512
+			var h = 512
+			var canvas1 = document.createElement('canvas');
+			canvas1.width = w;
+			canvas1.height = h;
+			canvas1.style.width = w + 'px';
+			canvas1.style.height = h + 'px';
+			ctxText1 = canvas1.getContext('2d', {antialias: false});
+
+			var canvas2 = document.createElement('canvas');
+			canvas2.width = w;
+			canvas2.height = h;
+			canvas2.style.width = w + 'px';
+			canvas2.style.height = h + 'px';
+			ctxText2 = canvas2.getContext('2d', {antialias: false});
+
+      textureText1 = new THREE.Texture(canvas1) 
+      textureText2 = new THREE.Texture(canvas2) 
+
+			var planeGeo = new THREE.PlaneGeometry( 100, 100, 1, 1 )
+			textPlane1 = new THREE.Mesh(
+				planeGeo,
+				new THREE.MeshPhongMaterial( { 
+					map: textureText1,
+					side: THREE.DoubleSide,
+					transparent: true
+				})
+			);
+			textPlane1.position.set(-100, 55, 170);
+			// textPlane1.receiveShadow = true;
+			scene.add(textPlane1);
+
+			textPlane2 = new THREE.Mesh(
+				planeGeo,
+				new THREE.MeshPhongMaterial( { 
+					map: textureText2,
+					side: THREE.DoubleSide,
+					transparent: true
+				})
+			);
+			textPlane2.position.set(200, 55, 170);
+			scene.add( textPlane2 );
+
+			var axis = new THREE.Mesh(
+				new THREE.BoxBufferGeometry( 10000, 2,2 ),
+				new THREE.MeshPhongMaterial( { color: 0x446aff, opacity: 0.2 } )
+			);
+			axis.position.set( 0, 0, 155 );
+			// axis.receiveShadow = true;
+			scene.add( axis );
+			
+			stats = new Stats();
+			document.body.appendChild( stats.dom );
+
+			controls = new THREE.OrbitControls( camera, renderer.domElement );
+			controls.screenSpacePanning = true;
+
+			window.addEventListener( 'resize', onWindowResize, false );
+		}
+		function onWindowResize() {
+			camera.aspect = window.innerWidth / window.innerHeight;
+			camera.updateProjectionMatrix();
+			renderer.setSize( window.innerWidth, window.innerHeight );
+			composer.setSize( window.innerWidth, window.innerHeight );
+		}
+		function animate() {
+			requestAnimationFrame( animate );
+
+			const delta = clock.getDelta();
+
+			var offset = -Math.PI * 1.5
+			var unit = Math.PI*2 / blocks.length
+			
+			mesh.rotation.x += delta / 2;
+			
+			let roto = (mesh.rotation.x - offset + unit) % (Math.PI*2) 
+			roto /= unit
+			roto = Math.floor(roto)
+			roto = 1855 + roto
+			if (roto > 1854 && roto < 2018) {
+				updateCaption(roto, ctxText1, textureText1)
+				updateCaption(roto+1, ctxText2, textureText2)
+			} else {
+				updateCaption('', ctxText1, textureText1)
+				updateCaption('', ctxText2, textureText2)
+			}
+			stats.update();
+			composer.render();
+		}
+		function updateCaption (text, ctxText, texture) {
+    	ctxText.clearRect(0, 0, 512, 512);
+			if (text !== '') {
+				ctxText.font = 'normal normal 100 160px arial';
+				ctxText.beginPath();
+				ctxText.fillStyle = '#446aff';
+				ctxText.fillText(text, 0, 480);
+				// ctxText.lineWidth = 1;
+				// ctxText.strokeStyle = '#446aff';
+				// ctxText.strokeText(text, 0, 480);
+			}
+			texture.needsUpdate = true;
+		}
+	</script>
+
+</body>
+
+</html>
